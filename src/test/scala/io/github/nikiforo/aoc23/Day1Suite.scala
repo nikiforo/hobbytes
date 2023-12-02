@@ -12,7 +12,7 @@ class Day1Suite extends AnyFunSuite {
        zoneight234
        7pqrstsixteen"""
 
-  private val sampleLines = sample.split("\n").toList
+  private val sampleLines = sample.linesIterator.toList
 
   test("sample task") {
     assert(Day1.task2(sampleLines) == 281)
