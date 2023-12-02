@@ -25,18 +25,13 @@ object Day2 {
     cubes.qty <= allCubes(cubes.color)
 
   private def computePower(game: Game): Int = {
-    val colors =
-      for {
-        hand <- game.hands
-        cubeColor <- hand.cubes
-      } yield
-        cubeColor.color match {
-          case "red" => (cubeColor.qty, 0, 0)
-          case "green" => (0, cubeColor.qty, 0)
-          case "blue" => (0, 0, cubeColor.qty)
-        }
+    val (reds, greens, blues) =
+      game.hands.flatMap(_.cubes).map {
+        case CubesColor(qty, "red") => (qty, 0, 0)
+        case CubesColor(qty, "green") => (0, qty, 0)
+        case CubesColor(qty, "blue") => (0, 0, qty)
+      }.unzip3
 
-    val (reds, greens, blues) = colors.unzip3
     reds.max * greens.max * blues.max
   }
 
