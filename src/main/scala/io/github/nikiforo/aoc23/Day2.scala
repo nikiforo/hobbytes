@@ -2,16 +2,11 @@ package io.github.nikiforo.aoc23
 
 object Day2 {
 
-  case class Game(num: Int, hands: List[Hand])
-  case class Hand(cubes: List[CubesColor])
-  case class CubesColor(qty: Int, color: Color)
+  private case class Game(num: Int, hands: List[Hand])
+  private case class Hand(cubes: List[CubesColor])
+  private case class CubesColor(qty: Int, color: String)
 
-  sealed trait Color
-  case object Red extends Color
-  case object Green extends Color
-  case object Blue extends Color
-
-  private val allCubes: Map[Color, Int] = Map(Red -> 12, Green -> 13, Blue -> 14)
+  private val allCubes: Map[String, Int] = Map("red" -> 12, "green" -> 13, "blue" -> 14)
 
   def main(args: Array[String]): Unit = {
     val result =
@@ -25,6 +20,9 @@ object Day2 {
 
   def task2(games: List[String]) =
     games.map(GameParser.parse).map(computePower).sum
+    
+  private def checkCubes(cubes: CubesColor) =
+    cubes.qty <= allCubes(cubes.color)
 
   private def computePower(game: Game): Int = {
     val colors =
@@ -33,41 +31,27 @@ object Day2 {
         cubeColor <- hand.cubes
       } yield
         cubeColor.color match {
-          case Red => (cubeColor.qty, 0, 0)
-          case Green => (0, cubeColor.qty, 0)
-          case Blue => (0, 0, cubeColor.qty)
+          case "red" => (cubeColor.qty, 0, 0)
+          case "green" => (0, cubeColor.qty, 0)
+          case "blue" => (0, 0, cubeColor.qty)
         }
 
     val (reds, greens, blues) = colors.unzip3
     reds.max * greens.max * blues.max
   }
 
-  private def checkCubes(cubes: CubesColor) =
-    cubes.qty <= allCubes(cubes.color)
+  private object GameParser {
 
-  object GameParser {
+    private val GameR = "Game (\\d+): (.*)".r
 
-    private val GameRegexp = "Game (\\d+): (.*)".r
-
-    private val CubesRegexp = "(\\d+) (.*)".r
+    private val CubesR = "(\\d+) (.*)".r
 
     def parse(line: String) =
       line match {
-        case GameRegexp(num, hands) => Game(num.toInt, hands.split("; ").toList.map(parseHand))
+        case GameR(num, hands) => Game(num.toInt, hands.split("; ").toList.map(parseHand))
       }
 
-    private def parseHand(string: String): Hand = {
-      val cubes = string.split(", ").toList.map {
-        case CubesRegexp(num, color) => CubesColor(num.toInt, parseColor(color))
-      }
-      Hand(cubes)
-    }
-
-    private def parseColor(color: String): Color =
-      color match {
-        case "red" => Red
-        case "green" => Green
-        case "blue" => Blue
-      }
+    private def parseHand(string: String): Hand =
+      Hand(string.split(", ").toList.map { case CubesR(num, color) => CubesColor(num.toInt, color) })
   }
 }
