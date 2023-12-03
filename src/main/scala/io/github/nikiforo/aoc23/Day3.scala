@@ -2,10 +2,10 @@ package io.github.nikiforo.aoc23
 
 object Day3 {
   
-  final class Scheme(lines: List[String]) {
-    private val scheme = lines.toArray.map(_.toArray)
+  protected[aoc23] final class Scheme(lines: List[String]) {
+    private val arrs = lines.toArray.map(_.toArray)
 
-    def indices = scheme.indices.flatMap(i => scheme(i).indices.map(j => (i, j)))
+    def indices = arrs.indices.flatMap(i => arrs(i).indices.map(j => (i, j)))
 
     def isDigit(c: (Int, Int)) = char(c).isDigit
 
@@ -13,17 +13,17 @@ object Day3 {
 
     def isGear(c: (Int, Int)) = char(c) == '*'
 
-    private def char(c: (Int, Int)) = scheme(c._1)(c._2)
-
     def fullNumberRange(c: (Int, Int)) = {
       def nonDigit(end: Int, step: Int) = c._2.to(end, step).find(j => !isDigit((c._1, j))).fold(end)(_ - step)
-      (nonDigit(0, -1), nonDigit(scheme(0).length - 1, 1))
+      (nonDigit(0, -1), nonDigit(arrs(0).length - 1, 1))
     }
 
     def validNeighbours8(coords: (Int, Int)) =
       neighbours8(coords).filter(inBorders)
 
-    def string(i: Int, l: Int, r: Int) = new String(scheme(i), l, r - l + 1)
+    def string(i: Int, l: Int, r: Int) = new String(arrs(i), l, r - l + 1)
+
+    private def char(c: (Int, Int)) = arrs(c._1)(c._2)
 
     private def neighbours8(coords: (Int, Int)) = {
       val (i, j) = coords
@@ -35,7 +35,7 @@ object Day3 {
     }
 
     private def inBorders(c: (Int, Int)) =
-      c._1 >= 0 && c._1 < scheme.length && c._2 >= 0 && c._2 < scheme(0).length
+      c._1 >= 0 && c._1 < arrs.length && c._2 >= 0 && c._2 < arrs(0).length
   }
 
   def main(args: Array[String]): Unit = {

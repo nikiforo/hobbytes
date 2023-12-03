@@ -15,11 +15,6 @@ object Day1 {
   def getFirstLastDigits(l: String): Int =
     s"${l.find(_.isDigit).get}${l.findLast(_.isDigit).get}".toInt
 
-  def getFirst(line: String, nums: Map[String, Int]): Int =
-    line.toList.tails.map { string =>
-      nums.keys.collectFirst { case k if string.startsWith(k) => nums(string.take(k.size).mkString) }
-    }.flatten.next()
-
   def task2(lines: List[String]): Int = {
     val nums = List("zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine")
     val numbers = (nums.zipWithIndex ++ (0 to 9).map(_.toString).zipWithIndex).toMap
@@ -30,4 +25,9 @@ object Day1 {
       s"$first$last".toInt
     }.sum
   }
+
+  private def getFirst(line: String, nums: Map[String, Int]): Int =
+    line.toList.tails.map { string =>
+      nums.keys.collectFirst { case k if string.startsWith(k) => nums(string.take(k.size).mkString) }
+    }.flatten.next()
 }
