@@ -18,7 +18,7 @@ object Day3 {
 
     private def char(c: (Int, Int)) = scheme(c._1)(c._2)
 
-    def expand(c: (Int, Int)) = {
+    def fullNumberRange(c: (Int, Int)) = {
       def nonDigit(end: Int, step: Int) = c._2.to(end, step).find(j => !char((c._1, j)).isDigit).fold(end)(_ - step)
       (nonDigit(0, -1), nonDigit(scheme(0).length - 1, 1))
     }
@@ -39,7 +39,6 @@ object Day3 {
 
     private def inBorders(c: (Int, Int)) =
       c._1 >= 0 && c._1 < scheme.length && c._2 >= 0 && c._2 < scheme(0).length
-
   }
 
   def main(args: Array[String]): Unit = {
@@ -51,29 +50,20 @@ object Day3 {
 
   def task1(lines: List[String]) = {
     val sc = new Scheme(lines)
-    val stack = Stack.from(sc.indices.filter(c => !sc.isDigit(c) && !sc.isDot(c)))
-    val visited = Set.empty[(Int, Int)]
-    val nums = List.newBuilder[Int]
-    def toVisit(c: (Int, Int)) = sc.validNeighbours8(c).filter(!sc.isDot(_)).filter(!visited(_))
-    while (stack.nonEmpty) {
-      val coord = stack.pop()
-      visited.add(coord)
-      val (digits, others) = toVisit(coord).partition(sc.isDigit(_))
-      val ranges = digits.map { case c @ (i, _) => (i, sc.expand(c)) }.distinct
-      nums.addAll(ranges.map { case (i, (l, r)) => sc.string(i, l, r).toInt })
-      val rangeCoords = ranges.flatMap { case (i, (l, r)) => l.until(r).map((i, _)) }
-      visited.addAll(rangeCoords)
-      stack.addAll(rangeCoords.flatMap(toVisit).distinct ++ others)
-    }
-    nums.result().sum
+    val nums =
+      for {
+        sym <- sc.indices.filter(c => !sc.isDigit(c) && !sc.isDot(c))
+        digits = sc.validNeighbours8(sym).filter(sc.isDigit(_))
+        (i, (l, r)) <- digits.map { case c @ (i, _) => (i, sc.fullNumberRange(c)) }.distinct
+      } yield sc.string(i, l, r).toInt
+    nums.sum
   }
 
   def task2(lines: List[String]) = {
     val sc = new Scheme(lines)
-    val gears = sc.indices.filter(sc.isGear(_))
-    gears.map { g =>
+    sc.indices.filter(sc.isGear(_)).map { g =>
       val digits = sc.validNeighbours8(g).filter(sc.isDigit)
-      val nums = digits.map { case c @ (i, _) => (i, sc.expand(c)) }.distinct
+      val nums = digits.map { case c @ (i, _) => (i, sc.fullNumberRange(c)) }.distinct
       if (nums.length != 2) 0
       else nums.map { case (i, (l, r)) => sc.string(i, l, r).toInt }.product
     }.sum

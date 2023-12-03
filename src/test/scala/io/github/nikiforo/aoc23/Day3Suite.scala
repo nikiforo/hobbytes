@@ -19,7 +19,7 @@ class Day3Suite extends AnyFunSuite {
   val lines = sample.linesIterator.toList
 
   test("expand") {
-    assert(new Day3.Scheme(lines).expand((0, 1)) == (0, 2))
+    assert(new Day3.Scheme(lines).fullNumberRange((0, 1)) == (0, 2))
   }
 
   test("string") {
