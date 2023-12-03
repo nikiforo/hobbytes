@@ -1,8 +1,5 @@
 package io.github.nikiforo.aoc23
 
-import scala.collection.mutable.Stack
-import scala.collection.mutable.Set
-
 object Day3 {
   
   final class Scheme(lines: List[String]) {
@@ -19,7 +16,7 @@ object Day3 {
     private def char(c: (Int, Int)) = scheme(c._1)(c._2)
 
     def fullNumberRange(c: (Int, Int)) = {
-      def nonDigit(end: Int, step: Int) = c._2.to(end, step).find(j => !char((c._1, j)).isDigit).fold(end)(_ - step)
+      def nonDigit(end: Int, step: Int) = c._2.to(end, step).find(j => !isDigit((c._1, j))).fold(end)(_ - step)
       (nonDigit(0, -1), nonDigit(scheme(0).length - 1, 1))
     }
 
