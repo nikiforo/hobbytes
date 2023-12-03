@@ -16,10 +16,10 @@ object Day2 {
   }
 
   def task1(games: List[String]) =
-    games.map(GameParser.parse).filter(_.hands.forall(_.cubes.forall(checkCubes))).map(_.num).sum
+    games.map(parse).filter(_.hands.forall(_.cubes.forall(checkCubes))).map(_.num).sum
 
   def task2(games: List[String]) =
-    games.map(GameParser.parse).map(computePower).sum
+    games.map(parse).map(computePower).sum
     
   private def checkCubes(cubes: CubesColor) =
     cubes.qty <= allCubes(cubes.color)
@@ -35,18 +35,9 @@ object Day2 {
     reds.max * greens.max * blues.max
   }
 
-  private object GameParser {
+  private def parse(line: String) =
+    line match { case s"Game $num: $hands" => Game(num.toInt, hands.split("; ").toList.map(parseHand)) }
 
-    private val GameR = "Game (\\d+): (.*)".r
-
-    private val CubesR = "(\\d+) (.*)".r
-
-    def parse(line: String) =
-      line match {
-        case GameR(num, hands) => Game(num.toInt, hands.split("; ").toList.map(parseHand))
-      }
-
-    private def parseHand(string: String): Hand =
-      Hand(string.split(", ").toList.map { case CubesR(num, color) => CubesColor(num.toInt, color) })
-  }
+  private def parseHand(string: String): Hand =
+    Hand(string.split(", ").toList.map { case s"$num $color" => CubesColor(num.toInt, color) })
 }
