@@ -12,19 +12,21 @@ object Day5 {
   }
 
   def task1(lines: List[String]) = {
-    val (seeds, maps) = parse(lines)
-    maps.foldLeft(seeds) { case (ids, ranges) =>
-      ids.map { id =>
-        val applyRangePF = Function.unlift(applyRange(id, _))
-        ranges.collectFirst(applyRangePF).getOrElse(id)
-      }
-    }.min
+    val (seeds, maps) = (parseSeeds(lines.head), splitToMaps(lines.tail))
+    seeds.map(applyToSeed(_, maps)).min
   }
 
-  def task2(lines: List[String]) = ""
+  def task2(lines: List[String]) = {
+    val maps = splitToMaps(lines.tail)
+    val ranges = parseSeeds(lines.head).grouped(2).collect { case List(start, len) => start.until(start + len) }
+    ranges.map(_.view.map(applyToSeed(_, maps)).min).min
+  }
 
-  def parse(lines: List[String]) =
-    (parseSeeds(lines.head), splitToMaps(lines.tail))
+  def applyToSeed(seed: Long, maps: List[List[AlmRange]]): Long =
+    maps.foldLeft(seed) { case (id, ranges) =>
+      val applyRangePF = Function.unlift(applyRange(id, _))
+      ranges.collectFirst(applyRangePF).getOrElse(id)
+    }
 
   def applyRange(id: Long, r: AlmRange): Option[Long] =
     if (r.sourceStart <= id && id < r.sourceStart + r.length) Some(id - r.sourceStart + r.destStart)

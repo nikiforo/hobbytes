@@ -41,10 +41,6 @@ class Day5Suite extends AnyFunSuite {
 
   val lines = sample.linesIterator.toList
 
-  test("parses") {
-    assert(Either.catchNonFatal(Day5.parse(lines)).isRight)
-  }
-
   test("applyRange") {
     assert(Day5.applyRange(98, Day5.AlmRange(50, 98, 2)) == Some(50))
   }
