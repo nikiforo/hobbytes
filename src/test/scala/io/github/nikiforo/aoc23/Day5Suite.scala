@@ -2,6 +2,8 @@ package io.github.nikiforo.aoc23
 
 import cats.syntax.either._
 import org.scalatest.funsuite.AnyFunSuite
+import io.github.nikiforo.aoc23.Day5.AlmRange
+import io.github.nikiforo.aoc23.Day5.SeedRange
 
 class Day5Suite extends AnyFunSuite {
   val sample =
@@ -42,10 +44,20 @@ class Day5Suite extends AnyFunSuite {
   val lines = sample.linesIterator.toList
 
   test("applyRange") {
-    assert(Day5.applyRange(98, Day5.AlmRange(50, 98, 2)) == Some(50))
+    assert(Day5.intersectRanges(SeedRange(98, 98), AlmRange(50, 98, 2)) == Some(List(SeedRange(50, 50))))
   }
 
   test("applyRange2") {
-    assert(Day5.applyRange(53, Day5.AlmRange(52, 50, 48)) == Some(55))
+    assert(Day5.intersectRanges(SeedRange(53, 53), AlmRange(52, 50, 48)) == Some(List(SeedRange(55, 55))))
+  }
+
+  
+  test("applyRange3") {
+    val results = List(SeedRange(95, 97), SeedRange(50, 51), SeedRange(100, 100))
+    assert(Day5.intersectRanges(SeedRange(95, 100), AlmRange(50, 98, 2)) == Some(results))
+  }
+
+  test("task2") {
+    assert(Day5.task2(lines) == 46)
   }
 }
