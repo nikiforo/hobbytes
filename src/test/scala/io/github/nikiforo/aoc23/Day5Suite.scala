@@ -51,7 +51,6 @@ class Day5Suite extends AnyFunSuite {
     assert(Day5.intersectRanges(SeedRange(53, 53), AlmRange(52, 50, 48)) == Some((SeedRange(55, 55), List())))
   }
 
-  
   test("applyRange3") {
     val results = (SeedRange(50, 51), List(SeedRange(95, 97), SeedRange(100, 100)))
     assert(Day5.intersectRanges(SeedRange(95, 100), AlmRange(50, 98, 2)) == Some(results))
