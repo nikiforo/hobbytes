@@ -23,11 +23,8 @@ object Day7 {
   def task2(lines: List[String]) =
     solvePuzzle(lines, ord2)
 
-  private def solvePuzzle(lines: List[String], order: Entry => (Int, Long)) = {
-    val entries = lines.map(parse)
-    val sorted = entries.map(e => (order(e), e)).sortBy(_._1).map(_._2)
-    sorted.zipWithIndex.map { case (e, rank) => e.bid * (rank + 1) }.sum
-  }
+  private def solvePuzzle(lines: List[String], order: Entry => (Int, Long)) =
+    lines.map(parse).sortBy(order).zipWithIndex.map { case (e, rank) => e.bid * (rank + 1) }.sum
 
   private def ord1(entry: Entry) = {
     val aggregated = entry.hand.groupBy(identity).toList.map(_._2.size).sorted.reverse
