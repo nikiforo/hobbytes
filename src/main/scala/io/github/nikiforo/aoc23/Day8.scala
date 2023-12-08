@@ -18,6 +18,7 @@ object Day8 {
     solve(lines.head, Array("AAA"), map, _.forall(_ == "ZZZ"))
   }
 
+  //❗️ It will take more than a thousand hours to compute the answer using my test case.
   def task2(lines: List[String]) = {
     val map = lines.drop(2).map(parse).toMap
     solve(lines.head, map.keys.filter(_.endsWith("A")).toArray, map, _.forall(_.endsWith("Z")))
