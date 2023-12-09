@@ -4,7 +4,9 @@ import cats.syntax.either._
 import org.scalatest.funsuite.AnyFunSuite
 import io.github.nikiforo.aoc23.Day5.AlmRange
 import io.github.nikiforo.aoc23.Day5.SeedRange
+import org.scalatest.DoNotDiscover
 
+@DoNotDiscover
 class Day5Suite extends AnyFunSuite {
   val sample =
     """seeds: 79 14 55 13

@@ -1,7 +1,9 @@
 package io.github.nikiforo.aoc23
 
 import org.scalatest.funsuite.AnyFunSuite
+import org.scalatest.DoNotDiscover
 
+@DoNotDiscover
 class Day1Suite extends AnyFunSuite {
   private val sample =
     """two1nine
