@@ -11,9 +11,22 @@ class Day10Suite extends AnyFunSuite {
       ||F--J
       |LJ...""".stripMargin
 
-  val lines = sample.linesIterator.toList
+  val sample2 =
+    """...........
+      |.S-------7.
+      |.|F-----7|.
+      |.||OOOOO||.
+      |.||OOOOO||.
+      |.|L-7OF-J|.
+      |.|II|O|II|.
+      |.L--JOL--J.
+      |.....O.....""".stripMargin
 
   test("task1") {
-    assert(Day10.task1(lines) == 8)
+    assert(Day10.task1(sample.linesIterator.toList) == 8)
+  }
+
+  test("task2 sample2") {
+    assert(Day10.task2(sample2.linesIterator.toList) == 4)
   }
 }
