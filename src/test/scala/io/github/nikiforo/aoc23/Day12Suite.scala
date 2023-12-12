@@ -27,4 +27,8 @@ final class Day12Suite extends AnyFunSuite {
   test("task1") {
     assert(Day12.task1(lines) == 21)
   }
+
+  test("task2") {
+    assert(Day12.task2(lines) == 525152)
+  }
 }

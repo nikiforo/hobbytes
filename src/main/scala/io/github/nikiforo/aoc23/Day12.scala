@@ -15,7 +15,11 @@ object Day12 {
       count(chars, -1, next)
     }.sum
 
-  def task2(lines: List[String]) = ""
+  def task2(lines: List[String]) =
+    lines.map { line =>
+      val (chars, next) = parse2(line)
+      count(chars, -1, next)
+    }.sum
 
   def count(chars: List[Char], continue: Int, next: List[Int]): Int =
     chars match {
@@ -44,4 +48,10 @@ object Day12 {
 
   def parse(line: String) =
     line match { case s"$record $other" => (record.toList, other.split(",").map(_.toInt).toList) }
+
+  def parse2(line: String) = {
+    line match { case s"$record $other" => (expand(record, "?").toList, expand(other, ",").split(",").map(_.toInt).toList) }
+  }
+
+  def expand(string: String, sep: String) = (1 to 5).map(_ => string).mkString(sep)
 }
