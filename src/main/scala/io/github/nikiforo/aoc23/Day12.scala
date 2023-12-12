@@ -21,29 +21,29 @@ object Day12 {
   final class Solver(tab: mutable.Map[Request, Long]) extends TopDownTab(tab) {
 
     def bare(request: Request): Long = {
-      val (chars, continue, next) = request
+      val (chars, damagedGroup, damagedFreshGroups) = request
       chars match {
-        case Nil => if (continue <= 0 && next.isEmpty) 1 else 0
-        case h :: tail =>
-          def broken =
-            next match {
+        case Nil => if (damagedGroup <= 0 && damagedFreshGroups.isEmpty) 1 else 0
+        case c :: tail =>
+          def startFreshGroup =
+            damagedFreshGroups match {
               case Nil => 0
-              case i :: iTail => compute(tail, i - 1, iTail)
+              case i :: damTail => compute(tail, i - 1, damTail)
             }
-          def cont = compute(tail, continue - 1, next)
+          def continueGroup = compute(tail, damagedGroup - 1, damagedFreshGroups)
 
-          if (continue < 0)
-            if (h == '.') cont
-            else if (h == '#') broken
-            else cont + broken
-          else if (continue == 0)
-            if (h == '.') cont
-            else if (h == '#') 0
-            else cont
+          if (damagedGroup < 0)
+            if (c == '.') continueGroup
+            else if (c == '#') startFreshGroup
+            else continueGroup + startFreshGroup
+          else if (damagedGroup == 0)
+            if (c == '.') continueGroup
+            else if (c == '#') 0
+            else continueGroup
           else
-            if (h == '.') 0
-            else if (h == '#') cont
-            else cont
+            if (c == '.') 0
+            else if (c == '#') continueGroup
+            else continueGroup
       }
     }
   }
@@ -63,7 +63,7 @@ object Day12 {
     }.sum
 
   def task2(lines: List[String]) =
-    lines.zipWithIndex.map { case (line, ind) =>
+    lines.map { case line =>
       val (chars, next) = parse2(line)
       val solver = new Solver(mutable.Map.empty)
       solver.compute((chars, -1, next))
