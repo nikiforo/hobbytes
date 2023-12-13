@@ -4,14 +4,9 @@ object Day12 {
 
   import scala.collection.mutable
 
-  abstract class TopDownTab[S, O](tab: mutable.Map[S, O]) {
+  abstract class TopDownTab[S, O](tab: scala.collection.mutable.Map[S, O]) {
 
-    final def compute(s: S): O = 
-      tab.get(s).getOrElse {
-        val result = bare(s)
-        tab(s) = result
-        result
-      }
+    final def compute(s: S): O = tab.getOrElseUpdate(s, bare(s))
 
     protected def bare(s: S): O
   }
