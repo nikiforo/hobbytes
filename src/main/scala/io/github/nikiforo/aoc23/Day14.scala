@@ -10,17 +10,17 @@ object Day14 {
   }
 
   def task1(lines: List[String]): Int = {
-    val cost = lines.size
-    lines.map(_.toList).transpose.map(count(_, cost, 0, 0)).sum
+    val initCost = lines.size
+    lines.map(_.toList).transpose.map { row =>
+      row.foldLeft((initCost, 0, 0)) { case ((cost, dots, acc), char) =>
+        char match {
+          case 'O' => (cost - 1, dots, acc + cost)
+          case '.' => (cost, dots + 1, acc)
+          case _ => (cost - dots - 1, 0, acc)
+        }
+      }._3  
+    }.sum
   }
 
   def task2(lines: List[String]) = ""
-
-  private def count(row: List[Char], cost: Int, dots: Int, acc: Int): Int =
-    row match {
-      case 'O' :: tail => count(tail, cost - 1, dots, acc + cost)
-      case '.' :: tail => count(tail, cost, dots + 1, acc)
-      case '#' :: tail => count(tail, cost - dots - 1, 0, acc)
-      case _ => acc
-    }
 }
