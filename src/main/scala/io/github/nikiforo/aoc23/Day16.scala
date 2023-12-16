@@ -46,10 +46,10 @@ object Day16 {
 
     private def move(light: Light) =
       light.direction match {
-        case Up => Light(light.i - 1, light.j, Up)
-        case Right => Light(light.i, light.j + 1, Right)
-        case Left => Light(light.i, light.j - 1, Left)
-        case Down => Light(light.i + 1, light.j, Down)
+        case Up => light.copy(i = light.i - 1)
+        case Right => light.copy(j = light.j + 1)
+        case Left => light.copy(j = light.j - 1)
+        case Down => light.copy(i = light.i + 1)
       }
   }
 
