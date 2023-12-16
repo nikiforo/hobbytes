@@ -15,43 +15,30 @@ object Day16 {
 
     val (height, width) = (arr.length, arr(0).length)
 
+    private val mirrorTopRight = Map[Direction, Direction](Up -> Right, Right -> Up, Left -> Down, Down -> Left)
+    private val mirrorDownRight = Map[Direction, Direction](Up -> Left, Right -> Down, Left -> Up, Down -> Right)
+
     def next(light: Light): Option[List[Light]] =
       if (light.i < 0 || light.i >= arr.length || light.j < 0 || light.j >= arr(light.i).length) None
       else {
         val directions =
           arr(light.i)(light.j) match {
-            case '.' => List(light.direction)
-            case '/' => List(`mirror╱`(light.direction))
-            case '\\' => List(`mirror╲`(light.direction))
-            case '-' => `splitter-`(light.direction)
-            case _ => `splitter|`(light.direction)
+            case '/' => List(mirrorTopRight(light.direction))
+            case '\\' => List(mirrorDownRight(light.direction))
+            case '-' => horizontal(light.direction)
+            case '|' => vertical(light.direction)
+            case _ => List(light.direction)
           }
         Some(directions.map(d => move(light.copy(direction = d))))
       }
 
-    private def `mirror╱`(direction: Direction) =
-      direction match {
-        case Up => Right
-        case Right => Up
-        case Left => Down
-        case Down => Left
-      }
-
-    private def `mirror╲`(direction: Direction) =
-      direction match {
-        case Up => Left
-        case Right => Down
-        case Left => Up
-        case Down => Right
-      }
-
-    private def `splitter-`(direction: Direction) =
+    private def horizontal(direction: Direction) =
       direction match {
         case Left | Right => List(direction)
         case Up | Down => List(Left, Right)
       }
 
-    private def `splitter|`(direction: Direction) =
+    private def vertical(direction: Direction) =
       direction match {
         case Up | Down => List(direction)
         case Left | Right => List(Up, Down)
@@ -79,8 +66,8 @@ object Day16 {
   def task2(lines: List[String]) = {
     val scheme = new Scheme(lines)
     def solve(i: Int, j: Int, d: Direction) = dfs(scheme, List(Light(i, j, d)), Set.empty)
-    val is = (0 until scheme.height).flatMap(i => List(solve(i, 0, Right), solve(i, scheme.width - 1, Left)))
-    val js = (0 until scheme.width).flatMap(j => List(solve(0, j, Down), solve(scheme.height - 1, j, Up)))
+    val is = (0 until scheme.height).flatMap(i => Array(solve(i, 0, Right), solve(i, scheme.width - 1, Left)))
+    val js = (0 until scheme.width).flatMap(j => Array(solve(0, j, Down), solve(scheme.height - 1, j, Up)))
     math.max(is.max, js.max)
   }
 
