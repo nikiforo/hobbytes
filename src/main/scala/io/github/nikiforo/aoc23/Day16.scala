@@ -2,12 +2,6 @@ package io.github.nikiforo.aoc23
 
 object Day16 {
 
-  sealed trait Direction
-  case object Up extends Direction
-  case object Right extends Direction
-  case object Left extends Direction
-  case object Down extends Direction
-
   case class Light(i: Int, j: Int, direction: Direction)
 
   final class Scheme(lines: List[String]) {
