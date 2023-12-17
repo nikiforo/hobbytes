@@ -1,6 +1,6 @@
 package io.github.nikiforo.aoc23
 
-object Day12 {
+object Day12 extends DayApp("12") {
 
   import scala.collection.mutable
 
@@ -41,13 +41,6 @@ object Day12 {
             else continueGroup
       }
     }
-  }
-
-  def main(args: Array[String]): Unit = {
-    val result =
-      s"""task1: ${task1(aocLines("12"))}
-         |task2: ${task2(aocLines("12"))}""".stripMargin
-    println(result)
   }
 
   def task1(lines: List[String]) =

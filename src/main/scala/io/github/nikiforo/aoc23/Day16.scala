@@ -1,6 +1,6 @@
 package io.github.nikiforo.aoc23
 
-object Day16 {
+object Day16 extends DayApp("16") {
 
   case class Light(i: Int, j: Int, direction: Direction)
 
@@ -45,13 +45,6 @@ object Day16 {
         case Left => light.copy(j = light.j - 1)
         case Down => light.copy(i = light.i + 1)
       }
-  }
-
-  def main(args: Array[String]): Unit = {
-    val result =
-      s"""task1: ${task1(aocLines("16"))}
-         |task2: ${task2(aocLines("16"))}""".stripMargin
-    println(result)
   }
 
   def task1(lines: List[String]) =

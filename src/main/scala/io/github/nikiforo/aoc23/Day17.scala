@@ -4,7 +4,7 @@ import scala.collection.immutable.TreeMap
 import io.github.nikiforo.aoc23.Coord
 import io.github.nikiforo.aoc23.Direction
 
-object Day17 {
+object Day17 extends DayApp("17") {
 
   case class Path(coord: Coord, dir: Direction, foward: Int)
 
@@ -18,13 +18,6 @@ object Day17 {
 
     def enqueue(entry: (Int, Path)): TreeMap[Int, List[Path]] =
       treeMap.updated(entry._1, entry._2 :: treeMap.getOrElse(entry._1, Nil))
-  }
-
-  def main(args: Array[String]): Unit = {
-    val result =
-      s"""task1: ${task1(aocLines("17"))}
-         |task2: ${task2(aocLines("17"))}""".stripMargin
-    println(result)
   }
 
   def task1(lines: List[String]) =
