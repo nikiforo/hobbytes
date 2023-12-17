@@ -11,11 +11,11 @@ package object aoc23 {
     lines
   }
 
-  sealed trait Direction
-  case object Up extends Direction
-  case object Right extends Direction
-  case object Left extends Direction
-  case object Down extends Direction
+  sealed trait Direction { def string: String }
+  case object Up extends Direction { def string = "U" }
+  case object Right extends Direction { def string = "R" }
+  case object Left extends Direction { def string = "L" }
+  case object Down extends Direction { def string = "D" }
 
   val allDirs = List(Up, Right, Left, Down)
 
