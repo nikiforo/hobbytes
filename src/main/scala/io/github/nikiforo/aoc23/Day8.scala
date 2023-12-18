@@ -2,16 +2,9 @@ package io.github.nikiforo.aoc23
 
 import fs2.Stream
 
-object Day8 {
+object Day8 extends DayApp("8") {
 
   private type Routes = Map[String, (String, String)]
-
-  def main(args: Array[String]): Unit = {
-    val result =
-      s"""task1: ${task1(aocLines("8"))}
-         |task2: ${task2(aocLines("8"))}""".stripMargin
-    println(result)
-  }
 
   def task1(lines: List[String]) = {
     val map = lines.drop(2).map(parse).toMap

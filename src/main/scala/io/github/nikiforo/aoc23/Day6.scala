@@ -1,13 +1,6 @@
 package io.github.nikiforo.aoc23
 
-object Day6 {
-
-  def main(args: Array[String]): Unit = {
-    val result =
-      s"""task1: ${task1(aocLines("6"))}
-         |task2: ${task2(aocLines("6"))}""".stripMargin
-    println(result)
-  }
+object Day6 extends DayApp("6") {
 
   def task1(lines: List[String]) = {
     val (times, distances) = (parse1(lines(0)), parse1(lines(1)))

@@ -1,13 +1,6 @@
 package io.github.nikiforo.aoc23
 
-object Day9 {
-
-  def main(args: Array[String]): Unit = {
-    val result =
-      s"""task1: ${task1(aocLines("9"))}
-         |task2: ${task2(aocLines("9"))}""".stripMargin
-    println(result)
-  }
+object Day9 extends DayApp("9") {
 
   def task1(lines: List[String]) =
     parse(lines).map(go(_, List.empty)).sum

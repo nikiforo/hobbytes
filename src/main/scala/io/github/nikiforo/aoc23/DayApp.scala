@@ -1,5 +1,7 @@
 package io.github.nikiforo.aoc23
 
+import scala.io.Source
+
 abstract class DayApp(filename: String) {
 
   protected val unsolved = -1L
@@ -14,4 +16,11 @@ abstract class DayApp(filename: String) {
   protected def task1(lines: List[String]): Long
 
   protected def task2(lines: List[String]): Long
+
+  private def aocLines(file: String): List[String] = {
+    val source = Source.fromFile(s"./src/main/resources/aoc/$file")
+    val lines = source.getLines.toList
+    source.close()
+    lines
+  }
 }

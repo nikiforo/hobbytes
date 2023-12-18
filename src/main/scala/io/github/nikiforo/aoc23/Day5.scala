@@ -1,17 +1,10 @@
 package io.github.nikiforo.aoc23
 
-object Day5 {
+object Day5 extends DayApp("5") {
 
   case class AlmRange(destStart: Long, sourceStart: Long, length: Long)
 
   case class SeedRange(start: Long, end: Long)
-
-  def main(args: Array[String]): Unit = {
-    val result =
-      s"""task1: ${task1(aocLines("5"))}
-         |task2: ${task2(aocLines("5"))}""".stripMargin
-    println(result)
-  }
 
   def task1(lines: List[String]) = {
     val seeds = parseSeeds(lines.head).map(l => SeedRange(l, l))

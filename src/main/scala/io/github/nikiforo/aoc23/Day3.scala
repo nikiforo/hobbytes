@@ -1,6 +1,6 @@
 package io.github.nikiforo.aoc23
 
-object Day3 {
+object Day3 extends DayApp("3") {
   
   protected[aoc23] final class Scheme(lines: List[String]) {
     private val arrs = lines.toArray.map(_.toArray)
@@ -36,13 +36,6 @@ object Day3 {
 
     private def inBorders(c: (Int, Int)) =
       c._1 >= 0 && c._1 < arrs.length && c._2 >= 0 && c._2 < arrs(0).length
-  }
-
-  def main(args: Array[String]): Unit = {
-    val result =
-      s"""task1: ${task1(aocLines("3"))}
-         |task2: ${task2(aocLines("3"))}""".stripMargin
-    println(result)
   }
 
   def task1(lines: List[String]) = {

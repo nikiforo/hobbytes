@@ -1,15 +1,8 @@
 package io.github.nikiforo.aoc23
 
-object Day4 {
+object Day4 extends DayApp("4") {
 
   case class Card(num: Int, wins: List[Int], haves: List[Int])
-
-  def main(args: Array[String]): Unit = {
-    val result =
-      s"""task1: ${task1(aocLines("4"))}
-         |task2: ${task2(aocLines("4"))}""".stripMargin
-    println(result)
-  }
 
   def task1(lines: List[String]) =
     lines.map { line =>

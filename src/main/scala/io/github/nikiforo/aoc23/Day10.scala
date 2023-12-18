@@ -1,6 +1,6 @@
 package io.github.nikiforo.aoc23
 
-object Day10 {
+object Day10 extends DayApp("10") {
 
   private type Coord = (Int, Int)
 
@@ -24,13 +24,6 @@ object Day10 {
   private val goDown = (coord: Coord) => (coord._1 + 1, coord._2)
   private val goRight = (coord: Coord) => (coord._1, coord._2 + 1)
   private val goLeft = (coord: Coord) => (coord._1, coord._2 - 1)
-
-  def main(args: Array[String]): Unit = {
-    val result =
-      s"""task1: ${task1(aocLines("10"))}
-         |task2: ${task2(aocLines("10"))}""".stripMargin
-    println(result)
-  }
 
   def task1(lines: List[String]) =
     buildRoute(new Scheme(lines)).map(_.size).max / 2

@@ -1,6 +1,6 @@
 package io.github.nikiforo.aoc23
 
-object Day7 {
+object Day7 extends DayApp("7") {
 
   case class Entry(hand: String, bid: Long)
 
@@ -9,13 +9,6 @@ object Day7 {
 
   private val cardCosts2: Map[Char, Int] =
     List('A', 'K', 'Q', 'T', '9', '8', '7', '6', '5', '4', '3', '2', 'J').reverse.zipWithIndex.toMap
-
-  def main(args: Array[String]): Unit = {
-    val result =
-      s"""task1: ${task1(aocLines("7"))}
-         |task2: ${task2(aocLines("7"))}""".stripMargin
-    println(result)
-  }
 
   def task1(lines: List[String]) =
     solvePuzzle(lines, ord1)
