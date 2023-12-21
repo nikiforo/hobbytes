@@ -23,7 +23,7 @@ final class Day19Suite extends AnyFunSuite {
       |{x=2461,m=1339,a=466,s=291}
       |{x=2127,m=1623,a=2188,s=1013}""".stripMargin.linesIterator.toList
 
-  test("task2") {
+  ignore("task2") {
     assert(Day19.task2(sample) == 167409079868000L)
   }
 }

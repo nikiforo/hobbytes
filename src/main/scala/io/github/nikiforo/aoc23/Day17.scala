@@ -4,6 +4,7 @@ import scala.collection.immutable.TreeMap
 import io.github.nikiforo.aoc23.Coord
 import io.github.nikiforo.aoc23.Direction
 import scala.collection.immutable.TreeSet
+import io.github.nikiforo.aoc23.Direction._
 
 object Day17 extends DayApp("17") {
 
@@ -13,10 +14,10 @@ object Day17 extends DayApp("17") {
     Ordering.by { case (heatLost, p) => (heatLost, p.coord.i, p.coord.j, p.direction.string, p.stepsFoward) }
 
   def task1(lines: List[String]) =
-    dijkstra(lines.map(_.toArray).toArray, TreeSet((0, Path(Coord(0, 0), Right, 0))), Set.empty, nextDirs1)
+    dijkstra(lines.map(_.toArray).toArray, TreeSet((0, Path(Coord(0, 0), R, 0))), Set.empty, nextDirs1)
 
   def task2(lines: List[String]) =
-    dijkstra(lines.map(_.toArray).toArray, TreeSet((0, Path(Coord(0, 0), Right, 0))), Set.empty, nextDirs2)
+    dijkstra(lines.map(_.toArray).toArray, TreeSet((0, Path(Coord(0, 0), R, 0))), Set.empty, nextDirs2)
 
   private def dijkstra(
     scheme: Array[Array[Char]],
@@ -25,17 +26,17 @@ object Day17 extends DayApp("17") {
     nextDirectionF: (Direction, Int) => List[Direction],
   ): Int = {
     val (heatLost, path) = visit.head
-    if (path.coord == lastCoord(scheme)) heatLost
+    if (path.coord == scheme.lastCoord) heatLost
     else {
       val nextPaths = nextDirectionF(path.direction, path.stepsFoward).map(movePath(path, _))
-      val next = nextPaths.filter(p => inBorder(p.coord, scheme) && !seen.contains(path))
-      val toVisit = next.foldLeft(visit.tail)((v, p) => v + ((heatLost + get(p.coord, scheme) - '0', p)))
+      val next = nextPaths.filter(p => scheme.inBorder(p.coord) && !seen.contains(path))
+      val toVisit = next.foldLeft(visit.tail)((v, p) => v + ((heatLost + scheme.get(p.coord) - '0', p)))
       dijkstra(scheme, toVisit, seen + path, nextDirectionF)
     }
   }
 
   private def movePath(path: Path, d: Direction) =
-    Path(move(path.coord, d), d, if (d == path.direction) path.stepsFoward + 1 else 1)
+    Path(path.coord.move(d), d, if (d == path.direction) path.stepsFoward + 1 else 1)
 
   private def nextDirs1(dir: Direction, forward: Int): List[Direction] =
     if (forward < 3) dir3(dir) else dir3(dir).filter(_ != dir)
