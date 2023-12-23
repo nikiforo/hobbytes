@@ -1,7 +1,9 @@
 package io.github.nikiforo.aoc23
 
 import org.scalatest.funsuite.AnyFunSuite
+import org.scalatest.DoNotDiscover
 
+@DoNotDiscover
 final class Day19Suite extends AnyFunSuite {
 
   val sample =
@@ -23,7 +25,7 @@ final class Day19Suite extends AnyFunSuite {
       |{x=2461,m=1339,a=466,s=291}
       |{x=2127,m=1623,a=2188,s=1013}""".stripMargin.linesIterator.toList
 
-  ignore("task2") {
+  test("task2") {
     assert(Day19.task2(sample) == 167409079868000L)
   }
 }
