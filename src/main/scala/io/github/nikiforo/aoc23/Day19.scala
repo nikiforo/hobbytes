@@ -21,8 +21,7 @@ object Day19 extends DayApp("19") {
     parts.filter(flow(workflows, _, workflows("in"))).map(p => p.x + p.m + p.a + p.s).sum
   }
 
-  //❗️ won't solve the problem
-  def task2(lines: List[String]): Long = {
+  def task2(lines: List[String]): Long = timeouted {
     val (workflows, _) = parse(lines)
 
     val poss = (1 to 4000).view

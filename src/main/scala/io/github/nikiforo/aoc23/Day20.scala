@@ -77,8 +77,7 @@ object Day20 extends DayApp("20") {
       run(map, queue.tail :++ newEntries, nHigh, nLow)
     }
 
-    // Won't solve in time
-  def task2(lines: List[String]): Long = {
+  def task2(lines: List[String]): Long = timeouted {
     val (broadcast, map) = parse(lines)
     initModules(map)
     val queue = Queue.from(broadcast.map((_, Broadcaster, Low: Pulse)))

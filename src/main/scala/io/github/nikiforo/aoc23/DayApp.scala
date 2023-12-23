@@ -17,6 +17,8 @@ abstract class DayApp(filename: String) {
 
   protected def task2(lines: List[String]): Long
 
+  final protected def timeouted(l: => Long) = -2L
+
   private def aocLines(file: String): List[String] = {
     val source = Source.fromFile(s"./src/main/resources/aoc/$file")
     val lines = source.getLines.toList
